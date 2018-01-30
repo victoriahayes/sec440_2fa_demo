@@ -14,5 +14,5 @@ class User(models.Model):
 
     def __str__(self):
         return str(self.user_id) + ": " + \
-               self.user_name + ": " + self.user_email
+               str(self.user_name) + ": " + str(self.user_email)
 
