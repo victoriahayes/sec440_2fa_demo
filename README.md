@@ -9,6 +9,7 @@ __Requirements:__
 * pip3
   * django
   * mysqlclient
+  * bcrypt
 
 if mysqlclient is giving trouble, try running `sudo apt-get install libmysqlclient-dev` first
 
