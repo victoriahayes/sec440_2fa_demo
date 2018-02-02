@@ -55,7 +55,9 @@ ROOT_URLCONF = 'dev_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR + 'voip_2fa_demo/templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

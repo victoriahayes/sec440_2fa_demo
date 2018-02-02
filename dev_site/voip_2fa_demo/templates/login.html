@@ -1,0 +1,10 @@
+{% if error_message %}
+    <p>{{ error_message }}</p>
+{% endif %}
+<form action="{% url 'user/login' %}" method="post">
+    {%  csrf_token %}
+    <table>
+        {{  form.as_table }}
+    </table>
+    <input type="submit" value="Submit" />
+</form>
