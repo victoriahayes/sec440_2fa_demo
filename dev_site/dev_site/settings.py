@@ -24,7 +24,7 @@ SECRET_KEY = '+z$h@8ehp@%2i6+!25xq5_06riy9vud$%k)&g3%yy_q)05hfvs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+ADMIN_ENABLED = False
 ALLOWED_HOSTS = []
 
 
@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'voip_2fa_demo.apps.Voip2FaDemoConfig',
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
