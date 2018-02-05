@@ -13,8 +13,11 @@ class LoginForm(forms.Form):
 
 
 def login(request, error_message=None):
-    login_form = LoginForm()
+    if request.method == 'GET':
+        login_form = LoginForm()
 
-    return render(request, 'new_user.html',
-                  {'form': login_form,
-                   'error_message': error_message})
+        return render(request, 'login.html',
+                      {'form': login_form,
+                       'error_message': error_message})
+    else:
+        return submit(request)

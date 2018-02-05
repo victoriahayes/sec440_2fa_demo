@@ -1,15 +1,19 @@
 from django import forms
+from django.db import IntegrityError
 from django.shortcuts import render
 from ..models import User
-from django.http import HttpResponseRedirect
 import bcrypt
 
-def NewUserForm(request, error_message=None):
-    form = UserForm()
 
-    return render(request, 'new_user.html',
-                  {'form': form,
-                   'error_message': error_message})
+def new_user_form(request, error_message=None):
+    if request.method == "GET":
+        form = UserForm()
+        return render(request, 'new_user.html',
+                      {'form': form,
+                       'error_message': error_message,
+                       'success': False})
+    else:
+        return submit(request)
 
 
 def submit(request):
@@ -19,13 +23,38 @@ def submit(request):
     new_user.user_email = request.POST['user_email']
     new_user.user_phone_number = request.POST['user_phone']
     if not password_match(request):
-        # TODO: return an error and repopulate form with recently entered data
-        return HttpResponseRedirect('/user/new', request)
+        form = UserForm(initial={
+            'user_name': request.POST['user_name'],
+            'user_email': request.POST['user_email'],
+            'user_phone': request.POST['user_phone']
+        })
+        return render(request, 'new_user.html', {
+            'form': form,
+            'error_message': 'Passwords do not match.',
+            'success': False
+        })
     new_user.user_salt = generate_salt()
     new_user.user_password_hash = protected(request, new_user)
     new_user.is_admin = False
-    new_user.save()
-    return HttpResponseRedirect('')
+    try:
+        new_user.save()
+    except IntegrityError:
+        error_message = 'Account with email address \'' + \
+                        str(request.POST['user_email'] +
+                            '\' already exists.')
+        form = UserForm(initial={
+            'user_name': request.POST['user_name'],
+            'user_email': request.POST['user_email'],
+            'user_phone': request.POST['user_phone']
+        })
+        return render(request, 'new_user.html', {
+            'form': form,
+            'error_message': error_message,
+            'success': False
+        })
+    return render(request, 'new_user.html', {
+        'success': True
+    })
 
 
 def password_match(request):
@@ -52,10 +81,3 @@ class UserForm(forms.Form):
     user_phone = forms.CharField(label='VOIP Extension:', max_length=15)
     user_pass = forms.CharField(widget=forms.PasswordInput(), label='Password:', max_length=32)
     user_pass1 = forms.CharField(widget=forms.PasswordInput(), label='Confirm Password:', max_length=32)
-
-    def set_values(self, request):
-        self.user_email.initial = request.POST['user_email']
-        self.user_pass.initial = request.POST['user_pass']
-        self.user_pass1.initial = request.POST['user_pass1']
-        self.user_phone.initial = request.POST['user_phone']
-        self.user_name.initial = request.POST['user_name']
