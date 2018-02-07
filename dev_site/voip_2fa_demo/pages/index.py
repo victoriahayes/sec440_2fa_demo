@@ -1,5 +1,8 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def index(request):
-    return HttpResponse("Hello World")
+    try:
+        return HttpResponse("Hello, " + str(request.session["user_name"]))
+    except KeyError:
+        return HttpResponseRedirect("login")

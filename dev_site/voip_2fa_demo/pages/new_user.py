@@ -65,13 +65,13 @@ def password_match(request):
 
 
 def generate_salt():
-    salt = bcrypt.gensalt()
+    salt = bcrypt.gensalt().decode('utf8')
     return salt
 
 
 def protected(request, new_user):
     return bcrypt.hashpw(request.POST['user_pass'].encode('utf8'),
-                         new_user.user_salt)
+                         new_user.user_salt.encode('utf8')).decode('utf8')
 
 
 class UserForm(forms.Form):
