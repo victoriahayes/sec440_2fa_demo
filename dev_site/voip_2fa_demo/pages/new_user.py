@@ -1,19 +1,24 @@
 from django import forms
 from django.db import IntegrityError
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 from ..models import User
 import bcrypt
 
 
 def new_user_form(request, error_message=None):
-    if request.method == "GET":
-        form = UserForm()
-        return render(request, 'new_user.html',
-                      {'form': form,
-                       'error_message': error_message,
-                       'success': False})
-    else:
-        return submit(request)
+    try:
+        if request.session["user_email"]:
+            if request.method == "GET":
+                form = UserForm()
+                return render(request, 'new_user.html',
+                              {'form': form,
+                               'error_message': error_message,
+                               'success': False})
+            else:
+                return submit(request)
+    except KeyError:
+        return HttpResponseRedirect("/login")
 
 
 def submit(request):

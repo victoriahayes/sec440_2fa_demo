@@ -48,6 +48,7 @@ def submit(request):
             return password_check_response
         request.session['user_name'] = user_data.user_name
         request.session['user_email'] = user_data.user_email
+        request.session["user_id"] = user_data.user_id
         request.session['login_complete'] = False
         request.session['attempts'] = 0
         generate_2fa_code(user_data)

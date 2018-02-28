@@ -1,5 +1,8 @@
+{% if success == True %}
+    <p>User was successfully changed</p>
+{% endif %}
 {% if error_message %}
-    <p>{{ error_message }}</p>
+    <p style="color:red">{{ error_message }}</p>
 {% endif %}
 {% if deleted == False %}
     <form action='/user/edit/{{user_id}}' method="post">
@@ -11,5 +14,5 @@
     </form>
 {% else %}
     User was successfully deleted <br/>
-    Click <a href="{% url 'users' %}"> here</a> to return to user list.
 {% endif %}
+    Click <a href="{% url 'users' %}"> here</a> to return to user list.
