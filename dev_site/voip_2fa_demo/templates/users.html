@@ -1,0 +1,21 @@
+Hello World
+<table>
+    {% for user in all_users %}
+        <tr>
+            <td>
+                {{ user.user_id }}
+            </td>
+            <td>
+                {{ user.user_email }}
+            </td>
+            <td>
+                {{ user.user_name }}
+            </td>
+            <td>
+                <a href="/user/edit/{{ user.user_id }}" >
+                    Edit
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
