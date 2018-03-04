@@ -109,7 +109,7 @@ def notify_admin(request):
     client_ip = get_client_ip(request)
 
     message = str.format("3 Failed login attempts to user account {0} from ip address {1}",
-                         str(request.POST['user_email']), client_ip)
+                         str(request.session['user_email']), client_ip)
 
     msg = MIMEText(message)
     msg['Subject'] = '2FA security alert'
