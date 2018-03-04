@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import exceptions
 from .new_user import protected
+from .callFormatter import generateCallFile
 import random
 
 from ..models import User
@@ -52,7 +53,7 @@ def submit(request):
         request.session['login_complete'] = False
         request.session['attempts'] = 0
         generate_2fa_code(user_data)
-        send_2fa_code()
+        send_2fa_code(user_data)
         return render(request, "login.html", {
             "form": TwoFaForm,
             "error_message": None
@@ -102,8 +103,10 @@ def generate_2fa_code(user_data):
     user_data.save()
 
 
-def send_2fa_code():
-    # ToDo: connect to voip program to send call
+def send_2fa_code(user):
+    user_phone = user.user_phone_number
+    user_2fa = user.user_2FA_code
+    generateCallFile(str(user_2fa), user_phone)
     pass
 
 

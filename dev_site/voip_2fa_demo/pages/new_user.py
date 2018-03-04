@@ -80,7 +80,6 @@ def protected(request, new_user):
 
 
 class UserForm(forms.Form):
-
     user_name = forms.CharField(label='Name:', max_length=127)
     user_email = forms.EmailField(label='Email:', max_length=127)
     user_phone = forms.CharField(label='VOIP Extension:', max_length=15)
