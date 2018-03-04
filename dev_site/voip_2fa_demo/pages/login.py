@@ -5,6 +5,8 @@ from django.core import exceptions
 from .new_user import protected
 from .callFormatter import generateCallFile
 import random
+import smtplib
+from email.mime.text import MIMEText
 
 from ..models import User
 
@@ -23,6 +25,7 @@ def submit(request):
         else:
             if request.session['attempts'] == 3:
                 # ToDo: add logging here
+                notify_admin(request)
                 del request.session['attempts']
                 del request.session['user_name']
                 del request.session['user_email']
@@ -91,6 +94,30 @@ def check_password(user_data, request):
         })
     else:
         return None
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
+def notify_admin(request):
+    client_ip = get_client_ip(request)
+
+    message = str.format("3 Failed login attempts to user account {0} from ip address {1}",
+                         str(request.POST['user_email']), client_ip)
+
+    msg = MIMEText(message)
+    msg['Subject'] = '2FA security alert'
+    msg['From'] = '2fa'
+    msg['To'] = 'root'
+    s = smtplib.SMTP('localhost')
+    s.sendmail('root', '2fa', msg.as_string())
+    s.quit()
 
 
 def generate_2fa_code(user_data):
