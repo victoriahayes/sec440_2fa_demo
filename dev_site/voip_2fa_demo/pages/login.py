@@ -116,7 +116,7 @@ def notify_admin(request):
     msg['From'] = 'victoria'
     msg['To'] = 'root'
     s = smtplib.SMTP('localhost')
-    s.sendmail('root', 'victoria', msg.as_string())
+    s.sendmail('victoria', 'root', msg.as_string())
     s.quit()
 
 
