@@ -113,10 +113,10 @@ def notify_admin(request):
 
     msg = MIMEText(message)
     msg['Subject'] = '2FA security alert'
-    msg['From'] = '2fa'
+    msg['From'] = 'victoria'
     msg['To'] = 'root'
     s = smtplib.SMTP('localhost')
-    s.sendmail('root', '2fa', msg.as_string())
+    s.sendmail('root', 'victoria', msg.as_string())
     s.quit()
 
 
