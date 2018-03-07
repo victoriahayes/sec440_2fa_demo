@@ -38,6 +38,7 @@ def submit(request):
                 })
             else:
                 attempts_remaining = 3 - request.session['attempts']
+                send_2fa_code(user_data)
                 return render(request, "login.html", {
                     'form': TwoFaForm,
                     'error_message': "Code incorrect. Attempts remaining: " + str(attempts_remaining)
