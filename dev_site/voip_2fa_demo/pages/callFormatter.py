@@ -3,6 +3,7 @@ import shutil
 
 def generateCallFile(numList, extension):
     lines = ["Channel: PJSIP/" + str(extension) + "\n",
+             "Callerid: 2FA Service\n",
              "MaxRetries: 1\n",
              "RetryTime: 60\n",
              "WaitTime: 30\n",
@@ -15,7 +16,7 @@ def generateCallFile(numList, extension):
         formattedNums.append("&en/digits/" + str(numList[i]))
 
     for i in range(6):
-        lines[5] = lines[5] + str(formattedNums[i])
+        lines[6] = lines[6] + str(formattedNums[i])
 
     name = ('2fa_' + str(extension) + '.call')
     with open(name, 'w') as f:
