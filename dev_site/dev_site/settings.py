@@ -78,12 +78,10 @@ WSGI_APPLICATION = 'dev_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sec440_db',
-        'USER': 'sec440_user',
-        'PASSWORD': '@llinVayne214',
-        'HOST': 'localhost',
-        'PORT': ''
-    }
+        'OPTIONS': {
+             'read_default_file': 'my.cnf'
+        },
+     }
 }
 
 
