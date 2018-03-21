@@ -18,7 +18,7 @@ def new_user_form(request, error_message=None):
             else:
                 return submit(request)
     except KeyError:
-        return HttpResponseRedirect("/login")
+        return HttpResponseRedirect("../login")
 
 
 def submit(request):

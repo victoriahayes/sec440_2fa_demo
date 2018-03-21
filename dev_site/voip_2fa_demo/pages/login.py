@@ -1,5 +1,5 @@
 from django import forms
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import exceptions
 from .new_user import protected
@@ -21,7 +21,7 @@ def submit(request):
             del request.session['attempts']
             user_data.user_2FA_code = ""
             user_data.save()
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect(reverse('index'))
         else:
             if request.session['attempts'] == 3:
                 # ToDo: add logging here

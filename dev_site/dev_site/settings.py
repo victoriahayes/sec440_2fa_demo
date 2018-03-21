@@ -78,9 +78,10 @@ WSGI_APPLICATION = 'dev_site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-             'read_default_file': 'my.cnf'
-        },
+        'NAME': 'sec440_db',
+        'USER': 'sec440_user',
+        'PASSWORD': '@llinVayne214',
+        'HOST': 'localhost'
      }
 }
 
@@ -135,5 +136,3 @@ SECURE_HSTS_SECONDS = 300
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-

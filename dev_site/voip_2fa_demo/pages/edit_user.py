@@ -28,7 +28,7 @@ def edit_user(request, user_id):
                 return submit(request, user_id)
     except:
         pass
-    return HttpResponseRedirect("/login")
+    return HttpResponseRedirect("../../login")
 
 
 def submit(request, user_id):

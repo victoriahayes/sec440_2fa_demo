@@ -15,7 +15,7 @@ def index(request):
                  del request.session['login_complete']
             except KeyError:
                  pass
-            return HttpResponseRedirect("login")
+            return HttpResponseRedirect("./login")
         return 
     except KeyError:
-        return HttpResponseRedirect("login")
+        return HttpResponseRedirect("./login")

@@ -1,4 +1,4 @@
-import shutil
+import shutil, os
 
 
 def generateCallFile(numList, extension):
@@ -19,7 +19,8 @@ def generateCallFile(numList, extension):
         lines[6] = lines[6] + str(formattedNums[i])
 
     name = ('2fa_' + str(extension) + '.call')
-    with open(name, 'w') as f:
+    full_name = (os.path.dirname(os.path.realpath(__file__))) + name
+    with open(full_name, 'w') as f:
         f.writelines(lines)
 
-    shutil.move(name, "/var/spool/asterisk/outgoing/" + name)
+    shutil.move(full_name, "/var/spool/asterisk/outgoing/" + name)
