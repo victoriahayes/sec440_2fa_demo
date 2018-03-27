@@ -1,5 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from ..models import User
+
+base_path = 'dev_site/'
 
 def index(request):
     try:
@@ -15,7 +18,15 @@ def index(request):
                  del request.session['login_complete']
             except KeyError:
                  pass
-            return HttpResponseRedirect("./login")
+            return HttpResponseRedirect("login")
         return 
     except KeyError:
-        return HttpResponseRedirect("./login")
+        if no_users():
+              return HttpResponseRedirect("user/add")
+        return HttpResponseRedirect(base_path  + "login")
+
+def no_users():
+    user_count = User.objects.all().count()
+    if user_count == 0:
+        return True
+    return False

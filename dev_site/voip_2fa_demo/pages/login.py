@@ -6,6 +6,7 @@ from .new_user import protected
 from .callFormatter import generateCallFile
 import random
 import smtplib
+from .index import no_users
 from email.mime.text import MIMEText
 
 from ..models import User
@@ -122,7 +123,6 @@ def notify_admin(request):
 
 
 def generate_2fa_code(user_data):
-    # ToDo: ensure that method used to generate code is cryptographically random
     code = ""
     for i in range(6):
         code += str(random.SystemRandom().randint(0,9))
@@ -148,6 +148,8 @@ class TwoFaForm(forms.Form):
 
 
 def login(request):
+    if no_users():
+        return HttpResponseRedirect("user/new")
     if request.method == 'GET':
         login_form = LoginForm()
 
