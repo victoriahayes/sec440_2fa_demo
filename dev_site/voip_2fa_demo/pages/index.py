@@ -1,8 +1,7 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from ..models import User
 
-base_path = 'dev_site/'
 
 def index(request):
     try:
@@ -18,12 +17,12 @@ def index(request):
                  del request.session['login_complete']
             except KeyError:
                  pass
-            return HttpResponseRedirect("login")
+            return HttpResponseRedirect(reverse("login"))
         return 
     except KeyError:
         if no_users():
-              return HttpResponseRedirect("user/add")
-        return HttpResponseRedirect(base_path  + "login")
+              return HttpResponseRedirect(reverse("user/add"))
+        return HttpResponseRedirect(reverse("login"))
 
 def no_users():
     user_count = User.objects.all().count()
