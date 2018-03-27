@@ -13,19 +13,25 @@ from ..models import User
 
 
 def submit(request):
+    """
+        handles information passed in log in form
+    """
     try:
         request.session['attempts'] += 1
         user_data = User.objects.get(user_email=request.session['user_email'])
+        # grabs user information for given email
         correct_code = user_data.user_2FA_code
         if request.POST['user_2fa_code'] == correct_code:
+            # if given 2FA code is correct
             request.session['login_complete'] = True
             del request.session['attempts']
             user_data.user_2FA_code = ""
             user_data.save()
+            # removes current 2FA code
             return HttpResponseRedirect(reverse('index'))
+            # redirects to index
         else:
             if request.session['attempts'] == 3:
-                # ToDo: add logging here
                 notify_admin(request)
                 del request.session['attempts']
                 del request.session['user_name']
