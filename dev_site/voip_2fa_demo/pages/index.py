@@ -1,11 +1,6 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from ..models import User
-
-base_path = 'dev_site/'
-# hack for when wsgi alias is not /
-# otherwise, redirects get funky
-
 
 def index(request):
     """
@@ -27,18 +22,18 @@ def index(request):
                 del request.session['user_id']
                 del request.session['login_complete']
             except KeyError:
-                # catch in case a session variable was no set
+                # for some reason, one of the session cookies were not set
                 pass
-            # redirect to log in page after log out
-            return HttpResponseRedirect(base_path + "login")
+            return HttpResponseRedirect(reverse("login"))
+            # redirects to login page
     except KeyError:
         # if no user logged in
         if no_users():
             # it is impossible to log in if there's no user accounts
             # redirects to user adding page
-              return HttpResponseRedirect(base_path + "user/add")
-        # redirects to log in page
-        return HttpResponseRedirect(base_path + "login")
+            return HttpResponseRedirect(reverse("user/add"))
+        return HttpResponseRedirect(reverse("login"))
+        # redirects to login page
 
 
 def no_users():
