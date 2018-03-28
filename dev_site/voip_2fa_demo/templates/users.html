@@ -12,7 +12,8 @@ Hello World
                 {{ user.user_name }}
             </td>
             <td>
-                <a href="/user/edit/{{ user.user_id }}" >
+                {% url "edit_user" user.user_id as user_url %}
+                <a href="{{user_url}}" >
                     Edit
                 </a>
             </td>

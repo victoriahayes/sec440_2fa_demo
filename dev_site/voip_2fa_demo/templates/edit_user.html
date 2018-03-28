@@ -5,7 +5,8 @@
     <p style="color:red">{{ error_message }}</p>
 {% endif %}
 {% if deleted == False %}
-    <form action='/user/edit/{{user_id}}' method="post">
+    {% url 'edit-user' user_id as user_url %}
+    <form action='{{user_url}}' method="post">
         {%  csrf_token %}
         <table>
             {{  form.as_table }}

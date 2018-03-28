@@ -81,19 +81,7 @@ def submit(request, user_id):
             if user_id == request.session["user_id"]:
                 # user logged in is being edited, don't change email
                 # this prevents annoying cookie manipulation
-                error_message = 'Cannot change email address of logged in user.'
-                form = UserForm(initial={
-                    'user_id': user.user_id,
-                    'user_name': user.user_email,
-                    'user_email': request.POST["user_email"],
-                    'user_phone': request.POST["user_phone"]
-                })
-                # repopulates form and displays page with an error message
-                return render(request, 'edit_user.html',
-                              {'form': form,
-                               'user_id': user_id,
-                               'deleted': False,
-                               'error_message': error_message})
+                pass
             # saves changes to email if no issues caught
             user.user_email = request.POST["user_email"]
             user.save()
